@@ -1,0 +1,29 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div>
+    <h4 class="px-2">Blog Posts</h4>
+    <ul class="p-0  m-0 d-flex flex-wrap gap-3">
+        {% for post in posts %}
+        
+            <li class="p-0 py-4 px-3 m-0  rounded shadow bg-white my-2">
+                <a class="text-decoration-none text-black " href="{% url 'post' post.id %} ">
+                <h4 class="text-success">{{ post.title }}</h4>
+                <p>{{ post.content|truncatewords:30 }}</p></a>
+        
+        <small>By {{ post.author }} on {{ post.timestamp }}</small><br>
+        {% if post.author == user %}
+        <div class="d-flex gap-3 mt-2">
+            <a href="{% url 'edit_post' post.id %}" class="btn btn-success">Edit</a>
+            <a href="{% url 'delete_post' post.id %}" class="btn btn-danger">Delete</a>
+        </div>
+        {% endif %}
+        </li>
+
+        {% endfor %}
+    </ul>
+    <a href="{% url 'create_post' %}" class="btn btn-dark my-3">Create New Post</a>
+</div>
+{% endblock %}

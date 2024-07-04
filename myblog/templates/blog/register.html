@@ -1,0 +1,31 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+
+<div class="container" <div  style="background: #fafafa;padding: 20px;margin: 20px auto;max-width: 500px;border-radius: 8px;box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+    <h3>Create an Account</h3>
+    <form method="POST">
+        
+        {% csrf_token %}
+        <div >
+            {{ form.username.label_tag }}
+            {{ form.username }}
+        </div>
+        <div >
+            {{ form.email.label_tag }}
+            {{ form.email }}
+        </div>
+        <div ">
+            {{ form.password1.label_tag }}
+            {{ form.password1 }}
+        </div>
+        <div >
+            {{ form.password2.label_tag }}
+            {{ form.password2 }}
+        </div>
+        <button class="btn btn-success " type="submit" >Register</button>
+    </form>
+</div>
+{% endblock %}
