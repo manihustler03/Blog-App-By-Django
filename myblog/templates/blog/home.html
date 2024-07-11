@@ -1,29 +1,42 @@
-{% extends "blog/base.html" %}
-
-{% block title %}Home{% endblock %}
-
-{% block content %}
+{% extends "blog/base.html" %} {% block title %}Home{% endblock %} {% block content %}
 <div>
-    <h4 class="px-2">Blog Posts</h4>
-    <ul class="p-0  m-0 d-flex flex-wrap gap-3">
-        {% for post in posts %}
-        
-            <li class="p-0 py-4 px-3 m-0  rounded shadow bg-white my-2">
-                <a class="text-decoration-none text-black " href="{% url 'post' post.id %} ">
-                <h4 class="text-success">{{ post.title }}</h4>
-                <p>{{ post.content|truncatewords:30 }}</p></a>
-        
-        <small>By {{ post.author }} on {{ post.timestamp }}</small><br>
+  <h4 class="px-2">Blog Posts</h4>
+  <div class="">
+    <ul class="p-0 m-0 d-flex flex-wrap gap-3" style="width:100%">
+      
+      {% for post in posts %}
+
+      <li class="p-0 py-4 px-3 m-0 rounded shadow bg-white my-2" style="width: 32%">
+        <a class="text-decoration-none text-black" href="{% url 'post' post.id %} ">
+          <h4 class="text-success">{{ post.title }}</h4>
+          <p>{{ post.content|truncatewords:20 }}</p>
+          
+        </a>
+
+        <small>By {{ post.author }} on {{ post.timestamp }} <p class="d-inline px-2 fw-medium">{{post.category}}</p></small><br />
         {% if post.author == user %}
         <div class="d-flex gap-3 mt-2">
-            <a href="{% url 'edit_post' post.id %}" class="btn btn-success">Edit</a>
-            <a href="{% url 'delete_post' post.id %}" class="btn btn-danger">Delete</a>
+          <a href="{% url 'edit_post' post.id %}" class="btn btn-success">Edit</a>
+          <a href="{% url 'delete_post' post.id %}" class="btn btn-danger">Delete</a>
+          
         </div>
+        
         {% endif %}
-        </li>
+      </li>
 
-        {% endfor %}
+      {% endfor %}
     </ul>
-    <a href="{% url 'create_post' %}" class="btn btn-dark my-3">Create New Post</a>
+    <!-- <ul class="bg-light px-4 py-1 w-25 bg-white mt-2 rounded-3" style="max-height: 220px">
+      <h5 class="mt-2">Categories</h5>
+
+      <div class="d-flex flex-column">
+         <li class="btn btn-danger w-50 py-1 fw-medium shadow-lg"><a class="text-white text-decoration-none" href="{% url 'category_tech'%}">Tech</a></li>
+        <li class="btn btn-success my-2 w-50 py-1 fw-medium shadow-lg"><a class="text-white text-decoration-none" href="{% url 'category_news'%}">News</a></li>
+        <li class="btn btn-danger w-50 py-1 fw-medium shadow-lg"><a class="text-white text-decoration-none" href="{% url 'category_news'%}">Cinema</a></li>
+        <li class="btn btn-success mt-1 w-50 py-1 fw-medium shadow-lg"><a class="text-white text-decoration-none" href="{% url 'category_news'%}">Sports</a></li>
+      </div>
+    </ul> -->
+  </div>
+  <!-- <a href="{% url 'create_post' %}" class="btn btn-dark my-3">Create New Post</a> -->
 </div>
 {% endblock %}

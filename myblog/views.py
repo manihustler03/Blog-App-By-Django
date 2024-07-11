@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegisterForm,UserLoginForm
+from .forms import UserRegisterForm,UserLoginForm,CategoryForm
 from .models import BlogPost
 
 def register(request):
@@ -42,9 +42,11 @@ def create_post(request):
     if request.method == 'POST':
         title = request.POST['title']
         content = request.POST['content']
-        BlogPost.objects.create(title=title, content=content, author=request.user)
+        category=request.POST['category']
+        BlogPost.objects.create(title=title, content=content, author=request.user,category=category)
         return redirect('home')
-    return render(request, 'blog/create_post.html')
+    form=CategoryForm()
+    return render(request, 'blog/create_post.html',{'form':form})
 
 @login_required
 def edit_post(request, post_id):
@@ -66,8 +68,22 @@ def delete_post(request, post_id):
 
 def home(request):
     posts = BlogPost.objects.all()
-    return render(request, 'blog/home.html', {'posts': posts})
+    reversePost=posts[::-1]
+    return render(request, 'blog/home.html', {'posts': reversePost})
 @login_required
 def post_detail(request, post_id):
     post = get_object_or_404(BlogPost, id=post_id)
     return render(request, 'blog/post_detail.html', {'post': post})
+
+def Category_Tech(request):
+    category = BlogPost.objects.filter(category="Tech")
+    return render(request, 'blog/category.html', {'category': category,'name':'Tech'})
+def Category_Cinema(request):
+    category = BlogPost.objects.filter(category="Cinema")
+    return render(request, 'blog/category.html', {'category': category,'name':'Cinema'})
+def Category_News(request):
+    category = BlogPost.objects.filter(category="News")
+    return render(request, 'blog/category.html', {'category': category,'name':'News'})
+def Category_Sport(request):
+    category = BlogPost.objects.filter(category="Sports")
+    return render(request, 'blog/category.html', {'category': category,'name':'Sports'})
