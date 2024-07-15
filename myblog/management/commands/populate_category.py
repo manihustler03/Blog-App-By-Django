@@ -8,7 +8,7 @@ class Command(BaseCommand):
 
     def handle(self, *args: Any, **options: Any):
         Category.objects.all().delete()
-        categories = ["Tech", "Cinema", "News", "Sports"]
+        categories = ["Tech", "Cinema", "News", "Sports","Viral"]
         for category_name in categories:
             Category.objects.create(name=category_name)
             self.stdout.write(self.style.SUCCESS("Complted"))

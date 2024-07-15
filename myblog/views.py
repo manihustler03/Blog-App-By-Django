@@ -69,11 +69,13 @@ def delete_post(request, post_id):
 def home(request):
     posts = BlogPost.objects.all()
     reversePost=posts[::-1]
-    return render(request, 'blog/home.html', {'posts': reversePost})
+    return render(request, 'blog/home.html', {'posts': reversePost,'tech':'Tech','cinema':'Cinema','news':'News','sports':'Sports'})
 @login_required
 def post_detail(request, post_id):
     post = get_object_or_404(BlogPost, id=post_id)
-    return render(request, 'blog/post_detail.html', {'post': post})
+    post_category=post.category
+    allPosts=BlogPost.objects.all()
+    return render(request, 'blog/post_detail.html', {'post': post,'allPosts':allPosts,'post_category':post_category})
 
 def Category_Tech(request):
     category = BlogPost.objects.filter(category="Tech")
@@ -87,3 +89,11 @@ def Category_News(request):
 def Category_Sport(request):
     category = BlogPost.objects.filter(category="Sports")
     return render(request, 'blog/category.html', {'category': category,'name':'Sports'})
+
+def Category(request, name):
+    if name is not None:
+        category = BlogPost.objects.filter(category=name)
+        return render(request, 'blog/category.html', {'category': category, 'name': name})
+    else:
+        # Handle the case where name is None, maybe redirect or show an error
+        return render(request, 'blog/category.html', {'error': 'No category specified'})

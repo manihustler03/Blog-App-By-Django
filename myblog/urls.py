@@ -14,5 +14,6 @@ urlpatterns = [
     path('category-cinema/', views.Category_Cinema, name='category_cinema'),
     path('category-news/', views.Category_News, name='category_news'),
     path('category-sport/', views.Category_Sport, name='category_sport'),
+    path('category/<str:name>/', views.Category, name='category'),
    
 ]
